@@ -1,39 +1,34 @@
-function setup() {
-canvas=createCanvas(280,280);
-canvas.centre();
-background("white");
-canvas.mouseReleased(classifyCanvas);
-synth=window.speechSynthesis;
-}
-
-function preload() {
-classifier=ml5.imageClassifier('DoddleNet');
+function setup()
+{ canvas = createCanvas(280, 280); canvas.center();
+background("white"); 
+canvas.mouseReleased(classifyCanvas); 
+synth = window.speechSynthesis; 
+} function preload() 
+{ classifier = ml5.imageClassifier('DoodleNet');
 }
 
 function clearCanvas() {
-background("white");
+background("white"); 
 }
 
 function draw() {
-strokeWeight(13);
+strokeWeight(13); 
 stroke(0);
-
-if (mouseIsPressed){
-line(pmouseX,pmouseY,mouseX,mouseY);
+if (mouseIsPressed) { line(pmouseX, pmouseY, mouseX, mouseY);
 }
 }
 
-function classifyCanvas() {
-classifier.classify(canvas,gotResult);
+function classifyCanvas() { 
+classifier.classify(canvas, gotResult);
 }
 
-function gotResult(error,results) {
-if (error) {
-console.error(error);
+function gotResult(error, results) {
+ if (error) { console.error(error);
 }
+  
 console.log(results);
-document.getElementsById('label').innerHTMl='Label :  '+results[0].label;
-document.getElementsById('confidence').innerHTMl='Confidence :  '+Math.round(results[0].cofidence *100)+'%';
-utterThis=new SpeechSynthesisUtterance(results[0].label);
+document.getElementById('label').innerHTML = 'Label: ' + results[0].label;
+document.getElementById('confidence').innerHTML = 'Confidence: ' + Math.round(results[0].confidence* 100) + '%';
+utterThis = new SpeechSynthesisUtterance(results[0].label);
 synth.speak(utterThis);
 }
